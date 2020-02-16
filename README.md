@@ -15,7 +15,7 @@ Anna Higgins uses seperate Excel spreadsheets for each discipline (e.g. Men's Om
 
 In the first instance it is sensible to attempt web scraping in R with the package **rvest**. Ultimately there could be automation functionality through a _shiny_ app available at a secure website. Here the PTA would go to select event, disciplines, etc to automatically spit out results formatted for the existing spreadsheets.
 
-### What data is used after each day/round?
+#### What data is used after each day/round?
 - Omnium race results are used to assess scenarios and competitors __during competition__ i.e. after each race. Anna currently does this work manually.
 - All other results are used for analysis __post-competition__. This can ostensibly require up to 1 week of wrangling/formatting after competition finishes.
 
