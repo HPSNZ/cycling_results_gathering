@@ -7,6 +7,9 @@ PTA and HPAD shared some of their work with us to familiarise us with their effo
 ## Tissot Timing data
 Data available at https://www.tissottiming.com/Sport/CTR includes World Cup and World Championship competitions. Webpages appear to be rendered in HTML and hence give us the potential for web scraping. The following notes will summarise progress made to this end.
 
+The following URL structure is used for each results page:
+www.tissottiming.com/ *year* / *comp_code* /en-us/default/Stage/ *event_code* /Results/ *round*
+
 ## PTA use of data
 Anna Higgins uses seperate Excel spreadsheets for each discipline (e.g. Men's Omnium) and records discipline-specific details and metrics for each. She shared some examples of these in order that we can see the output that any automation should work towards. 
 
