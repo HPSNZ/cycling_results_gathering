@@ -190,9 +190,9 @@ for (x in 1:length(data_tp)) {
 
 ## Write dataframes to xlsx
 library(xlsx)
-write.xlsx(data_tp[[1]], file="data_tp.xlsx", sheetName="sheet1", row.names=FALSE)
+write.xlsx(data_tp[[1]], file="data/data_tp.xlsx", sheetName="sheet1", row.names=FALSE)
 for (y in 2:length(data_tp)) {
-  write.xlsx(data_tp[[y]], file="data_tp.xlsx", sheetName=paste0("sheet", y), append=TRUE, row.names=FALSE)
+  write.xlsx(data_tp[[y]], file="data/data_tp.xlsx", sheetName=paste0("sheet", y), append=TRUE, row.names=FALSE)
 }
 
 

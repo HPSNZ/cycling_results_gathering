@@ -201,9 +201,9 @@ for (x in 1:length(data_k)) {
 
 # Write dataframes to xlsx
 library(xlsx)
-write.xlsx(data_ts[[1]], file="data_ts.xlsx", sheetName="sheet1", row.names=FALSE)
+write.xlsx(data_ts[[1]], file="data/data_ts.xlsx", sheetName="sheet1", row.names=FALSE)
 for (y in 2:length(data_k)) {
-  write.xlsx(data_k[[y]], file="data_ts.xlsx", sheetName=paste0("sheet", y), append=TRUE, row.names=FALSE)
+  write.xlsx(data_k[[y]], file="data/data_ts.xlsx", sheetName=paste0("sheet", y), append=TRUE, row.names=FALSE)
 }
 
 
