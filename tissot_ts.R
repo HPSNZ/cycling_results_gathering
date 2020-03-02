@@ -199,12 +199,18 @@ for (x in 1:length(data_ts)) {
 }
 
 
-# Write dataframes to xlsx
+all <- do.call(rbind, data_ts) %>%
+  select(event, stage, everything()) %>%
+  mutate(time = as.numeric(time),
+         rank = as.numeric(rank),
+         distance = as.numeric(sub("m", "", distance)))
+  
+
+
+## Write dataframes to xlsx
 library(xlsx)
-write.xlsx(data_ts[[1]], file="data/data_ts.xlsx", sheetName="sheet1", row.names=FALSE)
-for (y in 2:length(data_ts)) {
-  write.xlsx(data_ts[[y]], file="data/data_ts.xlsx", sheetName=paste0("sheet", y), append=TRUE, row.names=FALSE)
-}
+
+write.xlsx(all, file = "data/data_ts.xlsx", sheetName = "data", row.names=FALSE)
 
 
 

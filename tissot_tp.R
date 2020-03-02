@@ -187,13 +187,37 @@ for (x in 1:length(data_tp)) {
 
 }
 
+all <- do.call(rbind, data_tp) %>%
+  select(event, stage, everything()) %>%  
+  mutate(rank = as.numeric(rank),
+         distance = as.numeric(sub("m", "", distance)),
+         laptime = ifelse(str_detect(time, ":") == TRUE, 
+                          seconds(ms(time)), 
+                          seconds(time)))
+
+# var = c("time", "rank", "lap time", "laptime")
+# 
+# all %>% spread(key = distance, value = time)
+# 
+# mimic <- 
+
+
+
+
+
+
+
+  
+
 
 ## Write dataframes to xlsx
 library(xlsx)
-write.xlsx(data_tp[[1]], file="data/data_tp.xlsx", sheetName="sheet1", row.names=FALSE)
-for (y in 2:length(data_tp)) {
-  write.xlsx(data_tp[[y]], file="data/data_tp.xlsx", sheetName=paste0("sheet", y), append=TRUE, row.names=FALSE)
-}
+
+write.xlsx(all, file = "data/data_tp.xlsx", sheetName = "data", row.names=FALSE)
 
 
+# write.xlsx(data_tp[[1]], file="data/data_tp.xlsx", sheetName="sheet1", row.names=FALSE)
+# for (y in 2:length(data_tp)) {
+#   write.xlsx(data_tp[[y]], file="data/data_tp.xlsx", sheetName=paste0("sheet", y), append=TRUE, row.names=FALSE)
 
+  

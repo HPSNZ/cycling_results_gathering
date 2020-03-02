@@ -131,6 +131,9 @@ force_bind <- function(df1, df2) {
   bind_rows(df1, df2)
 }
 
+## Handy "not in" function
+`%not_in%` <- purrr::negate(`%in%`)
+
 ## Compute time taken to scrape the regatta
 end.time <- Sys.time()
 time.taken <- signif(end.time - start.time, 2)
