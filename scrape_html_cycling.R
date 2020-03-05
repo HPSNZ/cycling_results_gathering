@@ -16,7 +16,7 @@ start.time <- Sys.time()
 ## COMPETITION DISCIPLINES
 # ---------------------------
 # Event url
-competition_url <- "https://www.tissottiming.com/2020/ctrwcVI"
+competition_url <- "https://www.tissottiming.com/2020/ctrwch"
 tissot <- "https://www.tissottiming.com"
 
 # Get discipline pages
@@ -50,7 +50,12 @@ stages <- str_replace_all(stages, "\\\\" , "/")
 results_list <- vector("list", length(links))
 analysis <- vector("list", length(links))
 html_elements_list <- vector("list", length(links))
-html_elements_list <- lapply(links, read_html)
+html_elements_list <- lapply(links, function(url) {
+  tryCatch(
+    url %>% read_html(),
+    error = function(e){NA}
+    )
+  })
 
 # Iterate through pages and extract table elements, if error give NULL
 for (k in 1:length(results_list)){
@@ -79,21 +84,25 @@ for (k in 1:length(results_list)){
   #     prepend(., c(events[[k]], stages[[k]]))
     
   # Let's try to get the pdf tables as well  
-    pdfs <- html_elements_list[[k]] %>% 
-      html_nodes("select option")  %>%
-      html_attr("value") %>%
-      keep(., negate(is.na)) %>%
-      str_c(., ".pdf")
+    pdfs <- tryCatch(html_elements_list[[k]] %>% 
+                       html_nodes("select option")  %>%
+                       html_attr("value") %>%
+                       keep(., negate(is.na)) %>%
+                       str_c(., ".pdf"),
+      error = function(e){NULL})
       
-    analysis[[k]] <- extract_tables(pdfs[[length(pdfs)]], output = "data.frame", header = TRUE)
+    analysis[[k]] <- tryCatch(extract_tables(pdfs[[length(pdfs)]], output = "data.frame", header = TRUE), 
+                              error = function(e){NULL})
     
     if (length(analysis[[k]]) == 0) {
-      analysis[[k]] <- extract_tables(pdfs[[length(pdfs) - 1]], output = "data.frame", header = TRUE) %>%
-        prepend(., prepend(., matrix(nrow = 1, ncol = 2, data = c(events[[k]], stages[[k]]))))
+      analysis[[k]] <- tryCatch(extract_tables(pdfs[[length(pdfs) - 1]], output = "data.frame", header = TRUE) %>%
+        prepend(., prepend(., matrix(nrow = 1, ncol = 2, data = c(events[[k]], stages[[k]])))), 
+        error = function(e){NULL})
         #prepend(., cbind(events[[k]], stages[[k]]))
     }
     
-    else {analysis[[k]] <- analysis[[k]] %>%  prepend(., matrix(nrow = 1, ncol = 2, data = c(events[[k]], stages[[k]])))}
+    else {analysis[[k]] <- tryCatch(analysis[[k]] %>%  prepend(., matrix(nrow = 1, ncol = 2, data = c(events[[k]], stages[[k]]))), 
+                                    error = function(e){NULL})}
     
 }
 
@@ -101,9 +110,6 @@ for (k in 1:length(results_list)){
 
 ## EXTRACT PAGE, DISCIPLINE NAMES FOR WRANGLING
 # ----------------------------------------------
-# Page names stored in first element of the list
-#page_names <- unlist(lapply(results_list, `[[`, 1), use.names = FALSE)
-
 # Strip M or W from page name to get discipline
 disciplines <- page_names %>%
   str_replace_all(., "Men's ", "") %>%
